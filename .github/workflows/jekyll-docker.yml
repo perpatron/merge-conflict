@@ -1,0 +1,54 @@
+name: Jekyll site CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" , "perpatron" ]
+jobs:
+  build: patron 
+	bruker: actions/first-interaction@v1.3.0
+  med:
+    # Token for depotet. Kan sendes inn ved hjelp av {{ secrets.GITHUB_TOKEN }}
+    repo-token:
+    # Kommentar for å legge ut innlegg om en persons første utgave
+    problemmelding: # valgfritt
+    # Kommentar for å legge ut på en persons første pull-forespørsel
+    pr-melding: # ærre her det er party?
+
+				
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the site in the jekyll/builder container
+      run: |
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+            - navn: Oppsett av Node.js-miljø
+  bruker: actions/setup-node@v3.9.1
+  med:
+    # Sett alltid-auth i npmrc.
+    alltid-autoritet: # valgfritt, standard er usann
+    # Versjonsspesifikasjon for versjonen som skal brukes. Eksempler: 12.x, 10.15.1, >=10.15.0.
+    node-versjon: # valgfritt
+    # Fil som inneholder versjonsspesifikasjonen for versjonen som skal brukes. Eksempler: .nvmrc, .node-version, .tool-versions.
+    node-versjonsfil: # valgfritt
+    # Målarkitektur som noden skal bruke. Eksempler: x86, x64. Vil bruke systemarkitektur som standard.
+    arkitektur: # valgfritt
+    # Angi dette alternativet hvis du vil at handlingen skal se etter den nyeste tilgjengelige versjonen som tilfredsstiller versjonsspesifikasjonen.
+    sjekk-nyeste: # valgfritt
+    # Valgfritt register for oppsett for autentisering. Vil sette registeret i en .npmrc- og .yarnrc-fil på prosjektnivå, og sette opp autentisering for å lese inn fra env.NODE_AUTH_TOKEN.
+    register-url: # valgfritt
+    # Valgfritt omfang for autentisering mot registre med begrenset omfang. Vil falle tilbake til eieren av depotet når GitHub Packages-registeret brukes (https://npm.pkg.github.com/).
+    omfang: # valgfritt
+    # Brukes til å hente nodedistribusjoner fra nodeversjoner. Siden det finnes en standardverdi, leveres denne vanligvis ikke av brukeren. Når du kjører denne handlingen på github.com, er standardverdien tilstrekkelig. Når du kjører på GHES, kan du sende et personlig tilgangstoken for github.com hvis du opplever hastighetsbegrensning.
+    token: # valgfritt, standard er ${{ github.server_url == 'https://github.com' && github.token || '' }}
+    # Brukes til å spesifisere en pakkebehandler for mellomlagring i standardkatalogen. Støttede verdier: npm, yarn, pnpm.
+    hurtigbuffer: # valgfritt
+    # Brukes til å spesifisere banen til en avhengighetsfil: package-lock.json, yarn.lock, osv. Støtter jokertegn eller en liste over filnavn for mellomlagring av flere avhengigheter.
+    cache-dependency-sti: # valgfri
+          
+  
